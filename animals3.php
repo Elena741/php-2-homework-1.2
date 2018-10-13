@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 echo '<h2>Задание "Жестокое обращение с животными"</h2>';
 $continents = [
     'Africa' => [
@@ -30,37 +30,36 @@ echo 'ИСХОДНЫЙ МАССИВ: <br><br>';
 print_r($continents);
 echo '<br><br>';
 
-// Создаем общий массив из названий всех животных
-foreach ($continents as $continent => $animals) {
-    foreach ($animals as $key => $animal) {
-        $glob_animals[]=$animal;
+// Ищем двойные названия и разбиваем их на два массива
+foreach ($continents as $animals) {
+    foreach ($animals as $animal) {
+        if (count(explode(' ', $animal))==2) {
+            $double_names[]=explode(' ', $animal);
+        }
     } 
 }
+foreach ($double_names as $name) {      
+    $first[] = $name[0];
+    $second[] = $name[1];
+}
 
-// Находим среди них названия из двух слов (с одним пробелом)
-$final_animal = preg_grep("~\s{1}~",$glob_animals);
-
-// Формируем и выводим строку из значений финального массива
-$spisok=implode(', ', $final_animal);
-echo "НАЗВАНИЯ ИЗ ДВУХ СЛОВ:<br><br>";
-echo "$spisok";                          
-echo "<br>";
-
-// Формируем два массива из разбитых на части значений финального массива
-foreach ($final_animal as $anim) {      
-    $parts = explode(' ', $anim);
-    $first[] = $parts[0];
-    $second[] = $parts[1];
-}            
+// Формируем и выводим строку
+for ($i=0; $i < count($first); $i++) { 
+    $spisok[]="$first[$i] $second[$i]";
+}
+$spisok=implode(', ', $spisok);
+echo 'НАЗВАНИЯ ИЗ ДВУХ СЛОВ:<br><br>';
+echo $spisok;                          
+echo '<br>';
 
 // Перемешиваем значения в массивах и создаем результирующий массив
 shuffle($first);
 shuffle($second);
-$resalt = array_combine($first, $second);
+$result = array_combine($first, $second);
 
-echo "<h2>Фантазийные животные</h2>";
 // Выводим строку ключ => значение
-foreach ($resalt as $key => $value) {
-    echo $key." ".$value."\n<br/>";
+echo '<h2>Фантазийные животные</h2>';
+foreach ($result as $key => $value) {
+    echo $key.' '.$value.'<br/>';
 }
 ?>
